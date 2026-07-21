@@ -282,11 +282,32 @@
     <div class="panel">
       <h2>Modifier une commande</h2>
       <div class="desc">Sélectionnez une commande, corrigez les informations nécessaires puis enregistrez les modifications directement dans Grist.</div>
-      <div class="field" style="margin:18px 0; max-width:760px;">
-        <label>Commande à modifier</label>
-        <select id="edit_record_select"><option value="">— Sélectionner une commande —</option></select>
+      <div class="form-grid" style="margin:18px 0; align-items:end;">
+        <div class="field span2">
+          <label>1. Sélection dans la liste complète</label>
+          <select id="edit_record_select"><option value="">— Sélectionner une commande —</option></select>
+        </div>
+        <div class="field">
+          <label>2. Rechercher par N° de bon de commande</label>
+          <input type="text" id="edit_search_bc" placeholder="Ex. BC-2026-00125">
+        </div>
+        <div class="field">
+          <label>3. Rechercher par fournisseur</label>
+          <input type="text" id="edit_search_supplier" list="dl_fournisseurs" placeholder="Nom du fournisseur">
+        </div>
+        <div class="field span2">
+          <label>Résultats de la recherche</label>
+          <select id="edit_search_results" disabled><option value="">— Saisissez un numéro ou un fournisseur —</option></select>
+        </div>
+        <div class="field" style="align-self:end;">
+          <button type="button" class="btn btn-primary" id="btnEditSearch">Rechercher</button>
+        </div>
+        <div class="field" style="align-self:end;">
+          <button type="button" class="btn btn-ghost" id="btnEditSearchClear">Effacer la recherche</button>
+        </div>
       </div>
-      <div id="editEmpty" class="empty-state">Choisissez une commande dans la liste pour afficher son contenu.</div>
+      <div id="editSearchInfo" class="desc" style="margin:-6px 0 14px;">Vous pouvez utiliser l’un des trois modes de sélection.</div>
+      <div id="editEmpty" class="empty-state">Choisissez une commande dans la liste ou lancez une recherche pour afficher son contenu.</div>
       <form id="formModifier" style="display:none;">
         <input type="hidden" id="edit_id">
         <div class="field" style="margin-bottom:14px; max-width:320px;">
@@ -709,7 +730,7 @@ function renderEditOptions(){
   const current = sel.value;
   const sorted = [...records].sort((a,b)=>(b.Date||"").localeCompare(a.Date||"") || (b.id||0)-(a.id||0));
   sel.innerHTML = `<option value="">— Sélectionner une commande —</option>` + sorted.map(r=>
-    `<option value="${r.id}">${r.Date||"Sans date"} · ${escapeHtml(r.Site)} · ${escapeHtml(r.Fournisseur)} · ${escapeHtml(r.Objet)} · ${fmtEUR(r.MontantTTC)}</option>`
+    `<option value="${r.id}">${escapeHtml(editOptionLabel(r))}</option>`
   ).join("");
   if (sorted.some(r=>String(r.id)===String(current))) sel.value=current;
 }
@@ -728,9 +749,56 @@ document.querySelectorAll("#editTypeToggle button").forEach(btn=>btn.addEventLis
   document.querySelectorAll("#editTypeToggle button").forEach(b=>b.classList.remove("on"));
   btn.classList.add("on"); selectedEditType=btn.dataset.type;
 }));
-document.getElementById("edit_record_select").addEventListener("change",e=>loadEditRecord(e.target.value));
+function editOptionLabel(r){
+  const bc = r.NumBC ? `BC ${r.NumBC}` : "Sans N° BC";
+  return `${bc} · ${r.Date||"Sans date"} · ${r.Site||"Sans site"} · ${r.Fournisseur||"Sans fournisseur"} · ${r.Objet||"Sans objet"} · ${fmtEUR(r.MontantTTC)}`;
+}
+function selectEditRecord(id){
+  if(!id) return loadEditRecord("");
+  document.getElementById("edit_record_select").value=String(id);
+  const results=document.getElementById("edit_search_results");
+  if([...results.options].some(o=>o.value===String(id))) results.value=String(id);
+  loadEditRecord(id);
+}
+function runEditSearch(){
+  const bc=document.getElementById("edit_search_bc").value.trim().toLowerCase();
+  const supplier=document.getElementById("edit_search_supplier").value.trim().toLowerCase();
+  const results=document.getElementById("edit_search_results");
+  const info=document.getElementById("editSearchInfo");
+  if(!bc && !supplier){
+    results.disabled=true;
+    results.innerHTML='<option value="">— Saisissez un numéro ou un fournisseur —</option>';
+    info.textContent="Saisissez au moins un numéro de bon de commande ou un fournisseur.";
+    return;
+  }
+  const matches=records.filter(r=>{
+    const bcOk=!bc || String(r.NumBC||"").toLowerCase().includes(bc);
+    const supplierOk=!supplier || String(r.Fournisseur||"").toLowerCase().includes(supplier);
+    return bcOk && supplierOk;
+  }).sort((a,b)=>(b.Date||"").localeCompare(a.Date||"") || (b.id||0)-(a.id||0));
+  results.disabled=matches.length===0;
+  results.innerHTML=matches.length
+    ? '<option value="">— Sélectionner parmi les résultats —</option>'+matches.map(r=>`<option value="${r.id}">${escapeHtml(editOptionLabel(r))}</option>`).join("")
+    : '<option value="">Aucune commande trouvée</option>';
+  info.textContent=matches.length===0 ? "Aucune commande ne correspond à cette recherche." : `${matches.length} commande${matches.length>1?"s":""} trouvée${matches.length>1?"s":""}.`;
+  if(matches.length===1) selectEditRecord(matches[0].id);
+}
+function clearEditSearch(){
+  document.getElementById("edit_search_bc").value="";
+  document.getElementById("edit_search_supplier").value="";
+  const results=document.getElementById("edit_search_results");
+  results.disabled=true;
+  results.innerHTML='<option value="">— Saisissez un numéro ou un fournisseur —</option>';
+  document.getElementById("editSearchInfo").textContent="Vous pouvez utiliser l’un des trois modes de sélection.";
+}
+document.getElementById("edit_record_select").addEventListener("change",e=>selectEditRecord(e.target.value));
+document.getElementById("edit_search_results").addEventListener("change",e=>selectEditRecord(e.target.value));
+document.getElementById("btnEditSearch").addEventListener("click",runEditSearch);
+document.getElementById("btnEditSearchClear").addEventListener("click",clearEditSearch);
+document.getElementById("edit_search_bc").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();runEditSearch();}});
+document.getElementById("edit_search_supplier").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();runEditSearch();}});
 document.getElementById("btnCancelEdit").addEventListener("click",()=>{
-  document.getElementById("edit_record_select").value=""; loadEditRecord("");
+  document.getElementById("edit_record_select").value=""; clearEditSearch(); loadEditRecord("");
 });
 document.getElementById("formModifier").addEventListener("submit",async e=>{
   e.preventDefault(); const btn=document.getElementById("btnSaveEdit"); btn.disabled=true;
@@ -742,8 +810,7 @@ document.getElementById("formModifier").addEventListener("submit",async e=>{
 });
 function openEditRecord(id){
   goToView("modifier");
-  document.getElementById("edit_record_select").value=String(id);
-  loadEditRecord(id);
+  selectEditRecord(id);
 }
 
 /* ================= CONSULTATION ================= */
