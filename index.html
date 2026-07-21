@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>SELACV V1.0 - Suivi des présences</title>
+  <title>SELACV V1.0.2 - Suivi des présences</title>
   <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
   <style>
     :root{
@@ -124,6 +124,3 @@ async function remove(){const {p,date,period,pr,legacy}=state.editing||{};if(!pr
 async function load(){if(state.loading)return;state.loading=true;try{setConnection(false,'Chargement des tables Grist…');const [people,presences,types,sites,equipes,uo,metiers,statuts,grades]=await Promise.all(['personnel','presences','types','sites','equipes','uo','metiers','statuts','grades'].map(resolveTable));state.people=people;state.presences=presences;state.types=types.map(t=>String(t.Code||'').trim().toUpperCase()==='AS'?{...t,Code:'AS',Libelle:'Astreinte',Couleur_fond:'#FF8F00',Couleur_texte:'#FFFFFF',Actif:true}:t);const sample=presences[0]||{};state.periodCol=['Periode','Période','Period'].find(k=>Object.prototype.hasOwnProperty.call(sample,k))||'Periode';state.refs={sites:makeRefMap(sites,'Site'),equipes:makeRefMap(equipes,'Equipe'),uo:makeRefMap(uo,'UO'),metiers:makeRefMap(metiers,'Metier'),statuts:makeRefMap(statuts,'Statut'),grades:makeRefMap(grades,'Grade')};state.typeById=new Map(state.types.map(t=>[String(t.id),t]));state.typeByCode=new Map(state.types.map(t=>[String(t.Code||'').toUpperCase(),t]));hydrateFilters();render();setConnection(true,`Connecté · ${people.length} agents · ${presences.length} saisies`)}catch(e){setConnection(false,'Configuration Grist à vérifier');$('content').innerHTML=`<div class="error"><b>Connexion impossible.</b><br><br>Accorde au widget l’accès complet au document, puis recharge la page.<br><br><code>${esc(e.message)}</code></div>`}finally{state.loading=false}}
 ['site','team','uo','job','status','search'].forEach(id=>$(id).addEventListener(id==='search'?'input':'change',render));$('prev').onclick=()=>{state.date=new Date(state.date.getFullYear(),state.date.getMonth()-1,1);render()};$('next').onclick=()=>{state.date=new Date(state.date.getFullYear(),state.date.getMonth()+1,1);render()};$('todayBtn').onclick=()=>{state.date=new Date();render()};$('cancelBtn').onclick=()=>$('editor').close();$('saveBtn').onclick=save;$('deleteBtn').onclick=remove;$('rangeBtn').onclick=openRangeEditor;$('rangeCancel').onclick=()=>$('rangeEditor').close();$('rangeSave').onclick=saveRange;['rangePerson','rangeCode','rangeStart','rangeEnd','rangeStartPeriod','rangeEndPeriod','rangeWeekends','rangeConflict'].forEach(id=>$(id).addEventListener('change',updateRangeSummary));
 setConnection(false);grist.ready({requiredAccess:'full',columns:[]});grist.onRecords(()=>load());load();
-
-</script>
-</body></html>
