@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>SELACV V3.8.9 – Service Exploitation et Logistique Amiens Centre-Ville – Suivi des Ressources Humaines</title>
+  <title>SELACV V3.8.10 – Service Exploitation et Logistique Amiens Centre-Ville – Suivi des Ressources Humaines</title>
   <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
   <style>
     :root{
@@ -1026,7 +1026,7 @@
 </header>
 <main class="app">
 <section class="view active" id="dashboardView">
-  <div class="dashboard-hero"><div><h1>Tableau de bord</h1><div class="subtitle">Vue synthétique des présences et de l'activité du service · application Grist V3.8.9 · horaires théoriques intégrés</div></div><div class="dashboard-date" id="dashboardDate"></div></div>
+  <div class="dashboard-hero"><div><h1>Tableau de bord</h1><div class="subtitle">Vue synthétique des présences et de l'activité du service · application Grist V3.8.10 · horaires théoriques intégrés</div></div><div class="dashboard-date" id="dashboardDate"></div></div>
   <div class="kpi-grid" id="dashboardKpis"></div>
   <div class="dashboard-grid">
     <div class="dashboard-card absent-card"><h2>Absents aujourd’hui par équipe</h2><div id="dashboardAbsences" class="absence-teams"></div></div>
@@ -1034,7 +1034,7 @@
   </div>
 </section>
 <section class="view" id="planningView">
-  <div class="top"><div><h1>Suivi des présences</h1><div class="subtitle">Planning — application Grist V3.8.9 · horaires théoriques intégrés</div></div><div class="nav"><button class="btn" id="prev">◀</button><div class="month" id="monthLabel"></div><button class="btn" id="next">▶</button><button class="btn" id="todayBtn">Aujourd’hui</button><button class="btn primary" id="rangeBtn">＋ Saisir une période</button></div></div>
+  <div class="top"><div><h1>Suivi des présences</h1><div class="subtitle">Planning — application Grist V3.8.10 · horaires théoriques intégrés</div></div><div class="nav"><button class="btn" id="prev">◀</button><div class="month" id="monthLabel"></div><button class="btn" id="next">▶</button><button class="btn" id="todayBtn">Aujourd’hui</button><button class="btn primary" id="rangeBtn">＋ Saisir une période</button></div></div>
   <div class="toolbar">
     <select id="site"><option value="">Tous les sites</option></select><select id="team"><option value="">Toutes les équipes</option></select><select id="uo"><option value="">Toutes les UO</option></select><select id="job"><option value="">Tous les métiers</option></select><select id="status"><option value="">Tous les statuts</option></select><input id="search" placeholder="Rechercher un agent…" />
   </div>
@@ -1042,16 +1042,16 @@
   <div class="panel planning-panel"><div class="scroll" id="content"><div class="loading">Connexion à Grist…</div></div><div class="legend" id="legend"></div></div>
 </section>
 <section class="view" id="agentsView">
-  <div class="top"><div><h1>Dossier des agents</h1><div class="subtitle">Consulter, ajouter, modifier ou supprimer les dossiers de T01_Personnel — application Grist V3.8.9 · horaires théoriques intégrés</div></div><div class="agent-actions"><button class="btn primary" id="newAgentBtn">＋ Ajouter un agent</button><button class="btn" id="refreshAgentsBtn">↻ Actualiser</button></div></div>
+  <div class="top"><div><h1>Dossier des agents</h1><div class="subtitle">Consulter, ajouter, modifier ou supprimer les dossiers de T01_Personnel — application Grist V3.8.10 · horaires théoriques intégrés</div></div><div class="agent-actions"><button class="btn primary" id="newAgentBtn">＋ Ajouter un agent</button><button class="btn" id="refreshAgentsBtn">↻ Actualiser</button></div></div>
   <div class="panel"><div class="toolbar" style="grid-template-columns:minmax(220px,1fr) repeat(3,minmax(150px,.7fr))"><input id="agentSearch" placeholder="Rechercher par nom, prénom ou identifiant…"><select id="agentSiteFilter"><option value="">Tous les sites</option></select><select id="agentTeamFilter"><option value="">Toutes les équipes</option></select><select id="agentActiveFilter"><option value="">Actifs et inactifs</option><option value="true">Actifs uniquement</option><option value="false">Inactifs uniquement</option></select></div><div id="agentsContent" class="agents-table-wrap"><div class="loading">Chargement des agents…</div></div></div>
 </section>
 <section class="view" id="horairesView">
-  <div class="top"><div><h1>Horaires</h1><div class="subtitle">Modifier les horaires théoriques de T10_Horaires et contrôler la durée hebdomadaire cible selon la quotité de travail — application Grist V3.8.9</div></div><div class="agent-actions"><button class="btn" id="refreshHorairesBtn">↻ Actualiser</button></div></div>
+  <div class="top"><div><h1>Horaires</h1><div class="subtitle">Modifier les horaires théoriques de T10_Horaires et contrôler la durée hebdomadaire cible selon la quotité de travail — application Grist V3.8.10</div></div><div class="agent-actions"><button class="btn" id="refreshHorairesBtn">↻ Actualiser</button></div></div>
   <div class="schedule-summary" id="scheduleSummary"></div>
   <div class="panel"><div class="toolbar schedule-toolbar"><input id="scheduleSearch" placeholder="Rechercher un agent…"><select id="scheduleTeamFilter"><option value="">Toutes les équipes</option></select><select id="scheduleStatusFilter"><option value="">Tous les écarts</option><option value="ok">Conformes à la cible</option><option value="under">Inférieurs à la cible</option><option value="over">Supérieurs à la cible</option><option value="missing">Sans horaires</option></select></div><div id="schedulesContent" class="schedules-page-wrap"><div class="loading">Chargement des horaires…</div></div></div>
 </section>
 <section class="view" id="analyseView">
-  <div class="top"><div><h1>Analyse</h1><div class="subtitle">Espace de pilotage et d’analyse des présences — application Grist V3.8.9</div></div></div>
+  <div class="top"><div><h1>Analyse</h1><div class="subtitle">Espace de pilotage et d’analyse des présences — application Grist V3.8.10</div></div></div>
   <div class="analysis-grid">
     <div class="info-card"><h2>Analyse des présences</h2><p>Les prochains indicateurs détaillés seront regroupés ici : absentéisme, répartition par code, tendances mensuelles et comparaisons par équipe.</p></div>
     <div class="info-card"><h2>Principe</h2><p>Cet onglet est séparé du tableau de bord quotidien afin de conserver une navigation claire entre pilotage immédiat et analyse historique.</p></div>
@@ -1060,19 +1060,20 @@
 <section class="view" id="versionsView">
   <div class="top"><div><h1>Versions</h1><div class="subtitle">Historique succinct des évolutions du widget SELACV</div></div></div>
   <div class="versions-grid">
-    <div class="info-card current-version"><h2>Version actuelle : V3.8.9</h2><p>Correction de la règle d’affichage des agents attendus aujourd’hui par équipe : seuls les agents en position de travail sont affichés (présence sur site ou télétravail identifié par T). Les agents en congé, maladie ou tout autre motif d’absence ne sont pas affichés.</p></div>
+    <div class="info-card current-version"><h2>Version actuelle : V3.8.10</h2><p>Mise à jour du Dossier des agents : les champs Site, Équipe, Métier et Statut utilisent désormais les référentiels Grist T04_Site, T05_Equipe, T07_Metier et T08_Statut. L’identification de l’agent reste issue de T01_Personnel.</p></div>
     <div class="info-card"><h2>Règle horaire</h2><p>La cible dépend de la quotité : <strong>100 % = 35 h 15</strong> (ou <strong>34 h 15</strong> si une plage débute à 06:00), <strong>90 % = 31 h 45</strong>, <strong>80 % = 28 h 15</strong>, <strong>70 % = 24 h 40</strong>, <strong>60 % = 21 h 15</strong> et <strong>50 % = 17 h 38</strong>.</p></div>
   </div>
   <div class="panel" style="margin-top:18px">
     
-<div class="info-card current-version"><h2>Version actuelle : V3.8.9</h2><p>Correction stricte de la rubrique Agents attendus aujourd’hui par équipe : seuls les agents réellement en position de travail sont affichés. Les agents absents (congés, maladie ou autre absence) sont exclus. Le télétravail reste affiché avec l’indicateur T.</p></div>
+<div class="info-card current-version"><h2>Version actuelle : V3.8.10</h2><p>Mise à jour du Dossier des agents : les champs Site, Équipe, Métier et Statut utilisent désormais les référentiels Grist T04_Site, T05_Equipe, T07_Metier et T08_Statut. L’identification de l’agent reste issue de T01_Personnel.</p></div>
+<div class="version-entry"><h3>V3.8.10 — 22/07/2026</h3><ul><li>Mise à jour de la page Dossier des agents.</li><li>Lecture prioritaire du site depuis T04_Site, de l’équipe depuis T05_Equipe, du métier depuis T07_Metier et du statut depuis T08_Statut.</li><li>Conservation de l’identification de l’agent depuis T01_Personnel.</li><li>Maintien des anciens alias de tables afin de préserver la compatibilité avec les documents existants.</li></ul></div>
 <div class="version-entry"><h3>V3.8.9 — 22/07/2026</h3><ul><li>Correction définitive du filtrage des agents attendus aujourd’hui par équipe.</li><li>Exclusion des agents non présents en situation de travail.</li><li>Maintien des télétravailleurs avec indicateur T.</li></ul></div>
 <div class="version-entry"><h3>V3.8.8 — 22/07/2026</h3><ul>
 <li>Filtrage des agents attendus : affichage uniquement des agents en activité professionnelle.</li>
 <li>Conservation des agents en télétravail avec indicateur T.</li>
 <li>Exclusion des congés, maladies et autres absences empêchant la présence au travail.</li>
 </ul></div>
-<div class="info-card current-version"><h2>Version actuelle : V3.8.9</h2><p>Correction stricte de la rubrique Agents attendus aujourd’hui par équipe : seuls les agents réellement en position de travail sont affichés. Les agents absents (congés, maladie ou autre absence) sont exclus. Le télétravail reste affiché avec l’indicateur T.</p></div>
+<div class="info-card current-version"><h2>Version actuelle : V3.8.10</h2><p>Mise à jour du Dossier des agents : les champs Site, Équipe, Métier et Statut utilisent désormais les référentiels Grist T04_Site, T05_Equipe, T07_Metier et T08_Statut. L’identification de l’agent reste issue de T01_Personnel.</p></div>
 <div class="version-entry"><h3>V3.8.9 — 22/07/2026</h3><ul><li>Correction définitive du filtrage des agents attendus aujourd’hui par équipe.</li><li>Exclusion des agents non présents en situation de travail.</li><li>Maintien des télétravailleurs avec indicateur T.</li></ul></div>
 <div class="version-entry"><h3>V3.8.8 — 22/07/2026</h3><ul>
 <li>Suppression du bloc « Répartition des saisies du mois » du tableau de bord.</li>
@@ -1273,9 +1274,9 @@ const TABLE_CANDIDATES={
   personnel:['T01_Personnel','01_Personnel','Personnel'],
   presences:['T02_Presences','02_Presences','Presences','Présences'],
   types:['T03_Types_presence_absence','03_Types_presence_absence','Types_presence_absence'],
-  sites:['T04_Sites','04_Sites','Sites'], equipes:['T05_Equipes','05_Equipes','Equipes','Équipes'],
-  uo:['T06_UO','06_UO','UO'], metiers:['T07_Metiers','07_Metiers','Metiers','Métiers'],
-  statuts:['T08_Statuts','08_Statuts','Statuts'], grades:['T09_Grades','09_Grades','Grades'],
+  sites:['T04_Site','T04_Sites','04_Site','04_Sites','Site','Sites'], equipes:['T05_Equipe','T05_Equipes','05_Equipe','05_Equipes','Equipe','Equipes','Équipe','Équipes'],
+  uo:['T06_UO','06_UO','UO'], metiers:['T07_Metier','T07_Metiers','07_Metier','07_Metiers','Metier','Metiers','Métier','Métiers'],
+  statuts:['T08_Statut','T08_Statuts','08_Statut','08_Statuts','Statut','Statuts'], grades:['T09_Grades','09_Grades','Grades'],
   horaires:['T10_Horaires','10_Horaires','Horaires']
 };
 const TABLES={};
