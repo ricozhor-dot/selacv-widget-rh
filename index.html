@@ -1216,6 +1216,13 @@ td.public-holiday .day-stack{opacity:.95}
 .recurrence-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 @media(max-width:560px){.recurrence-grid{grid-template-columns:1fr}}
 
+
+/* V5.1.1 — nombre de jours travaillés et contrôle centré */
+.schedule-days-count{font-weight:800;white-space:nowrap;text-align:center}
+.schedule-target-cell{text-align:center!important;vertical-align:middle!important}
+.schedule-target-cell .hours-diff{display:inline-flex;align-items:center;justify-content:center;margin:auto}
+#scheduleValidation{text-align:center;display:flex;align-items:center;justify-content:center;min-height:38px}
+
 </style>
 </head>
 <body>
@@ -1252,7 +1259,7 @@ td.public-holiday .day-stack{opacity:.95}
 </div>
 <main class="app">
 <section class="view active" id="dashboardView">
-  <div class="dashboard-hero"><div><h1>Tableau de bord</h1><div class="subtitle">Vue synthétique des présences et de l'activité du service · application Grist V5.1 · horaires théoriques intégrés</div></div><div class="dashboard-date" id="dashboardDate"></div></div>
+  <div class="dashboard-hero"><div><h1>Tableau de bord</h1><div class="subtitle">Vue synthétique des présences et de l'activité du service · application Grist V5.1.1 · horaires théoriques intégrés</div></div><div class="dashboard-date" id="dashboardDate"></div></div>
   <div class="kpi-grid" id="dashboardKpis"></div>
   <div class="dashboard-grid">
     <div class="dashboard-card absent-card"><h2>Absents aujourd’hui par équipe</h2><div id="dashboardAbsences" class="absence-teams"></div></div>
@@ -1260,7 +1267,7 @@ td.public-holiday .day-stack{opacity:.95}
   </div>
 </section>
 <section class="view" id="planningView">
-  <div class="top"><div><h1>Suivi des présences</h1><div class="subtitle">Planning — application Grist V5.1 · horaires théoriques intégrés</div></div><div class="nav"><button class="btn" id="prev">◀</button><div class="month" id="monthLabel"></div><button class="btn" id="next">▶</button><button class="btn" id="todayBtn">Aujourd’hui</button><button class="btn primary" id="rangeBtn">＋ Saisir une période</button></div></div>
+  <div class="top"><div><h1>Suivi des présences</h1><div class="subtitle">Planning — application Grist V5.1.1 · horaires théoriques intégrés</div></div><div class="nav"><button class="btn" id="prev">◀</button><div class="month" id="monthLabel"></div><button class="btn" id="next">▶</button><button class="btn" id="todayBtn">Aujourd’hui</button><button class="btn primary" id="rangeBtn">＋ Saisir une période</button></div></div>
   <div class="toolbar">
     <select id="site"><option value="">Tous les sites</option></select><select id="team"><option value="">Toutes les équipes</option></select><select id="uo"><option value="">Toutes les UO</option></select><select id="job"><option value="">Tous les métiers</option></select><select id="status"><option value="">Tous les statuts</option></select><input id="search" placeholder="Rechercher un agent…" />
   </div>
@@ -1268,18 +1275,18 @@ td.public-holiday .day-stack{opacity:.95}
   <div class="panel planning-panel"><div class="scroll" id="content"><div class="loading">Connexion à Grist…</div></div><div class="legend" id="legend"></div></div>
 </section>
 <section class="view" id="agentsView">
-  <div class="top"><div><h1>Dossier des agents</h1><div class="subtitle">Consulter, ajouter, modifier ou supprimer les dossiers de T01_Personnel — application Grist V5.1 · horaires théoriques intégrés</div></div><div class="agent-actions"><button class="btn primary" id="newAgentBtn">＋ Ajouter un agent</button><button class="btn" id="refreshAgentsBtn">↻ Actualiser</button></div></div>
+  <div class="top"><div><h1>Dossier des agents</h1><div class="subtitle">Consulter, ajouter, modifier ou supprimer les dossiers de T01_Personnel — application Grist V5.1.1 · horaires théoriques intégrés</div></div><div class="agent-actions"><button class="btn primary" id="newAgentBtn">＋ Ajouter un agent</button><button class="btn" id="refreshAgentsBtn">↻ Actualiser</button></div></div>
   <div class="panel"><div class="toolbar" style="grid-template-columns:minmax(220px,1fr) repeat(3,minmax(150px,.7fr))"><input id="agentSearch" placeholder="Rechercher par nom, prénom, site ou équipe…"><select id="agentSiteFilter"><option value="">Tous les sites</option></select><select id="agentTeamFilter"><option value="">Toutes les équipes</option></select><select id="agentActiveFilter"><option value="">Actifs et inactifs</option><option value="true">Actifs uniquement</option><option value="false">Inactifs uniquement</option></select></div><div id="agentsContent" class="agents-table-wrap"><div class="loading">Chargement des agents…</div></div></div>
 </section>
 <section class="view" id="horairesView">
-  <div class="top"><div><h1>Horaires</h1><div class="subtitle">Modifier les horaires théoriques de T10_Horaires et contrôler la durée hebdomadaire cible selon la quotité de travail — application Grist V5.1</div></div><div class="agent-actions"><button class="btn" id="refreshHorairesBtn">↻ Actualiser</button></div></div>
+  <div class="top"><div><h1>Horaires</h1><div class="subtitle">Modifier les horaires théoriques de T10_Horaires et contrôler la durée hebdomadaire cible selon la quotité de travail — application Grist V5.1.1</div></div><div class="agent-actions"><button class="btn" id="refreshHorairesBtn">↻ Actualiser</button></div></div>
   <div class="schedule-summary" id="scheduleSummary"></div>
   <div class="panel"><div class="toolbar schedule-toolbar"><input id="scheduleSearch" placeholder="Rechercher un agent…"><select id="scheduleTeamFilter"><option value="">Toutes les équipes</option></select><select id="scheduleStatusFilter"><option value="">Tous les écarts</option><option value="ok">Conformes à la cible</option><option value="under">Inférieurs à la cible</option><option value="over">Supérieurs à la cible</option><option value="missing">Sans horaires</option></select></div><div id="schedulesContent" class="schedules-page-wrap"><div class="loading">Chargement des horaires…</div></div></div>
 </section>
 
 <section class="view" id="analyseView">
   <div class="top">
-    <div><h1>Analyses RH</h1><div class="subtitle">Analyse détaillée des présences et absences, comparaisons par agent, équipe, site, métier et code — application Grist V5.1</div></div>
+    <div><h1>Analyses RH</h1><div class="subtitle">Analyse détaillée des présences et absences, comparaisons par agent, équipe, site, métier et code — application Grist V5.1.1</div></div>
     <div class="agent-actions"><button class="btn" id="analysisRefreshBtn">↻ Actualiser</button></div>
   </div>
   <div class="analysis-shell">
@@ -1376,6 +1383,12 @@ td.public-holiday .day-stack{opacity:.95}
     <div class="info-card"><h2>Règle horaire</h2><p>La cible dépend de la quotité : <strong>100 % = 35 h 15</strong> (ou <strong>34 h 15</strong> si une plage débute à 06:00), <strong>90 % = 31 h 45</strong>, <strong>80 % = 28 h 15</strong>, <strong>70 % = 24 h 40</strong>, <strong>60 % = 21 h 15</strong> et <strong>50 % = 17 h 38</strong>.</p></div>
   </div>
   <div class="panel" style="margin-top:18px">
+<div class="version-entry"><h3>V5.1.1 — 23/07/2026</h3><ul>
+<li>Ajout d’une colonne « Nombre de jours travaillés » dans l’onglet Horaires.</li>
+<li>Calcul automatique en journées complètes et demi-journées, avec affichage 4,5 jours ou 5 jours selon l’horaire de l’agent.</li>
+<li>Ajout du nombre de jours travaillés dans le total de la fenêtre de modification des horaires.</li>
+<li>Centrage de la bulle du contrôle de la cible pour une présentation plus propre.</li>
+</ul></div>
 <div class="version-entry"><h3>V5.1 — 23/07/2026</h3><ul>
 <li>Ajout du bouton « Saisir une période » dans la fenêtre ouverte depuis une cellule du planning.</li>
 <li>Reprise automatique de l’agent, de la date, de la demi-journée, du code et du commentaire sélectionnés.</li>
@@ -2111,6 +2124,8 @@ function timeToMinutes(v){
 function minutesToTime(v){const n=timeToMinutes(v);if(n==null)return'';return `${String(Math.floor(n/60)%24).padStart(2,'0')}:${String(n%60).padStart(2,'0')}`}
 function durationMinutes(start,end){const a=timeToMinutes(start),b=timeToMinutes(end);return a==null||b==null||b<=a?0:b-a}
 function scheduleMinutes(h){if(!h)return 0;return WEEK_DAYS.reduce((sum,d)=>sum+durationMinutes(h[`${d}_matin_debut`],h[`${d}_matin_fin`])+durationMinutes(h[`${d}_apres_midi_debut`],h[`${d}_apres_midi_fin`]),0)}
+function scheduleWorkedDays(h){if(!h)return 0;return WEEK_DAYS.reduce((sum,d)=>{const am=durationMinutes(h[`${d}_matin_debut`],h[`${d}_matin_fin`])>0,pm=durationMinutes(h[`${d}_apres_midi_debut`],h[`${d}_apres_midi_fin`])>0;return sum+(am&&pm?1:(am||pm?0.5:0))},0)}
+function scheduleWorkedDaysLabel(h){const n=scheduleWorkedDays(h);return `${Number.isInteger(n)?n:n.toLocaleString('fr-FR')} jour${n>1?'s':''}`}
 function scheduleQuotite(h){
  if(!h)return 100;
  const raw=h.Quotite??h.Quotité??h.quotite??h.quotité??100;
@@ -2146,8 +2161,8 @@ function renderSchedules(){
  const totals=records.reduce((a,{h})=>{a[scheduleStatus(h)]++;return a},{ok:0,under:0,over:0,missing:0});
  $('scheduleSummary').innerHTML=[['Agents actifs',records.length],['Conformes',totals.ok],['À corriger',totals.under+totals.over],['Sans horaires',totals.missing]].map(([l,n])=>`<div class="schedule-summary-card"><span>${l}</span><b>${n}</b></div>`).join('');
  const dayText=h=>WEEK_DAYS.map(d=>{const a=[minutesToTime(h?.[`${d}_matin_debut`]),minutesToTime(h?.[`${d}_matin_fin`])].filter(Boolean).join('–'),p=[minutesToTime(h?.[`${d}_apres_midi_debut`]),minutesToTime(h?.[`${d}_apres_midi_fin`])].filter(Boolean).join('–');return(a||p)?`<div><b>${d.slice(0,2)}</b>${esc([a,p].filter(Boolean).join(' · '))}</div>`:''}).join('')||'<span class="meta">Aucune plage renseignée</span>';
- const rows=filtered.map(({p,h})=>{const total=scheduleMinutes(h),target=scheduleTargetMinutes(h),diff=total-target,st=scheduleStatus(h);return `<tr><td><b>${esc(p.Nom||'')} ${esc(p.Prenom||'')}</b><div class="meta">${esc(refLabel(p.Equipe,'equipes')||'Sans équipe')}</div></td><td><div class="schedule-days">${dayText(h)}</div></td><td><span class="hours-total">${h?formatMinutes(total):'—'}</span><div class="target-note">Quotité : ${h?scheduleQuotiteLabel(h):'—'} · Cible : ${h?scheduleTargetLabel(h):'—'}</div></td><td><span class="hours-diff hours-${st}">${esc(scheduleStatusLabel(st,diff))}</span></td><td class="action-cell"><div class="print-action-group"><button class="btn" data-edit-schedule="${p.id}">${h?'Modifier':'Créer'}</button>${h?`<button class="btn" data-preview-schedule="${p.id}">👁 Afficher</button><button class="btn" data-print-schedule="${p.id}">🖨 Imprimer</button>`:''}</div></td></tr>`}).join('');
- el.innerHTML=filtered.length?`<table class="agents-table"><thead><tr><th>Agent</th><th>Horaires hebdomadaires</th><th>Total</th><th>Contrôle de la cible</th><th>Action</th></tr></thead><tbody>${rows}</tbody></table>`:'<div class="empty-state">Aucun agent ne correspond aux filtres.</div>';
+ const rows=filtered.map(({p,h})=>{const total=scheduleMinutes(h),target=scheduleTargetMinutes(h),diff=total-target,st=scheduleStatus(h);return `<tr><td><b>${esc(p.Nom||'')} ${esc(p.Prenom||'')}</b><div class="meta">${esc(refLabel(p.Equipe,'equipes')||'Sans équipe')}</div></td><td><div class="schedule-days">${dayText(h)}</div></td><td><span class="hours-total">${h?formatMinutes(total):'—'}</span><div class="target-note">Quotité : ${h?scheduleQuotiteLabel(h):'—'} · Cible : ${h?scheduleTargetLabel(h):'—'}</div></td><td class="schedule-days-count">${h?scheduleWorkedDaysLabel(h):'—'}</td><td class="schedule-target-cell"><span class="hours-diff hours-${st}">${esc(scheduleStatusLabel(st,diff))}</span></td><td class="action-cell"><div class="print-action-group"><button class="btn" data-edit-schedule="${p.id}">${h?'Modifier':'Créer'}</button>${h?`<button class="btn" data-preview-schedule="${p.id}">👁 Afficher</button><button class="btn" data-print-schedule="${p.id}">🖨 Imprimer</button>`:''}</div></td></tr>`}).join('');
+ el.innerHTML=filtered.length?`<table class="agents-table"><thead><tr><th>Agent</th><th>Horaires hebdomadaires</th><th>Total</th><th>Nombre de jours travaillés</th><th>Contrôle de la cible</th><th>Action</th></tr></thead><tbody>${rows}</tbody></table>`:'<div class="empty-state">Aucun agent ne correspond aux filtres.</div>';
  document.querySelectorAll('[data-edit-schedule]').forEach(b=>b.onclick=()=>openScheduleEditor(state.people.find(p=>String(p.id)===b.dataset.editSchedule),schedulesByPerson.get(String(b.dataset.editSchedule))||null));
  document.querySelectorAll('[data-preview-schedule]').forEach(b=>b.onclick=()=>previewSchedule(state.people.find(p=>String(p.id)===b.dataset.previewSchedule),schedulesByPerson.get(String(b.dataset.previewSchedule))||null));
  document.querySelectorAll('[data-print-schedule]').forEach(b=>b.onclick=()=>printSchedule(state.people.find(p=>String(p.id)===b.dataset.printSchedule),schedulesByPerson.get(String(b.dataset.printSchedule))||null));
@@ -2298,7 +2313,7 @@ function updateScheduleEditorTotal(){
  const diff=total-target;
  const compliant=Math.abs(diff)<=1;
  const st=compliant?'ok':diff<0?'under':'over';
- $('scheduleEditorTotal').innerHTML=`<span>Total hebdomadaire : <strong>${formatMinutes(total)}</strong> · Quotité : <strong>${scheduleQuotiteLabel(rec)}</strong> · Cible : <strong>${scheduleTargetLabel(rec)}</strong></span><span class="hours-diff hours-${st}">${esc(scheduleStatusLabel(st,diff))}</span>`;
+ $('scheduleEditorTotal').innerHTML=`<span>Total hebdomadaire : <strong>${formatMinutes(total)}</strong> · Jours travaillés : <strong>${scheduleWorkedDaysLabel(rec)}</strong> · Quotité : <strong>${scheduleQuotiteLabel(rec)}</strong> · Cible : <strong>${scheduleTargetLabel(rec)}</strong></span><span class="hours-diff hours-${st}">${esc(scheduleStatusLabel(st,diff))}</span>`;
  const validation=$('scheduleValidation');
  validation.className=`schedule-validation ${compliant?'valid':'invalid'}`;
  validation.textContent=compliant
