@@ -1256,6 +1256,7 @@ td.public-holiday .day-stack{opacity:.95}
     <button class="active" id="dashboardTab"><span>⌂</span> Tableau de bord</button>
     <button id="planningTab"><span>▦</span> Planning</button>
     <button id="horairesTab"><span>◷</span> Horaires</button>
+    <button id="logesTab"><span>⌂</span> Logés</button>
     <button id="agentsTab"><span>☷</span> Dossier</button>
     <button id="analyseTab"><span>◆</span> Analyse</button>
     <button id="versionsTab"><span>≡</span> Versions</button>
@@ -1293,6 +1294,10 @@ td.public-holiday .day-stack{opacity:.95}
   <div class="top"><div><h1>Horaires</h1><div class="subtitle">Modifier les horaires théoriques de T10_Horaires et contrôler la durée hebdomadaire cible selon la quotité de travail — application Grist V5.1.15</div></div><div class="agent-actions"><button class="btn" id="refreshHorairesBtn">↻ Actualiser</button></div></div>
   <div class="schedule-summary" id="scheduleSummary"></div>
   <div class="panel"><div class="toolbar schedule-toolbar"><input id="scheduleSearch" placeholder="Rechercher un agent…"><select id="scheduleTeamFilter"><option value="">Toutes les équipes</option></select><select id="scheduleStatusFilter"><option value="">Tous les écarts</option><option value="ok">Conformes à la cible</option><option value="under">Inférieurs à la cible</option><option value="over">Supérieurs à la cible</option><option value="missing">Sans horaires</option></select></div><div id="schedulesContent" class="schedules-page-wrap"><div class="loading">Chargement des horaires…</div></div></div>
+</section>
+<section class="view" id="logesView">
+  <div class="top"><div><h1>Logés</h1><div class="subtitle">Gestion et suivi des agents logés — module à compléter selon la règle métier.</div></div></div>
+  <div class="panel"><div class="empty-state">Le module Logés est créé. La source de données et les règles d’attribution restent à définir.</div></div>
 </section>
 
 <section class="view" id="analyseView">
@@ -2156,7 +2161,7 @@ function exportAnalysisSummary(){
   downloadCsv(analysisFilename('synthese'),rows);
 }
 
-function switchView(name){['dashboard','planning','horaires','agents','analyse','versions','admin'].forEach(v=>{const view=$(v+'View'),tab=$(v+'Tab');if(view)view.classList.toggle('active',name===v);if(tab)tab.classList.toggle('active',name===v)});if(name==='agents')renderAgents();if(name==='horaires')renderSchedules();if(name==='dashboard')renderDashboard();if(name==='analyse')renderAnalysis();if(name==='admin')renderAdmin()}
+function switchView(name){['dashboard','planning','horaires','loges','agents','analyse','versions','admin'].forEach(v=>{const view=$(v+'View'),tab=$(v+'Tab');if(view)view.classList.toggle('active',name===v);if(tab)tab.classList.toggle('active',name===v)});if(name==='agents')renderAgents();if(name==='horaires')renderSchedules();if(name==='dashboard')renderDashboard();if(name==='analyse')renderAnalysis();if(name==='admin')renderAdmin()}
 function agentRefId(v){if(v&&typeof v==='object')return v.id??v.rowId??'';return Array.isArray(v)?v[1]??'':v??''}
 function agentFieldKeys(){const preferred=['Nom','Prenom','Email','Telephone','Site','Equipe','UO','Metier','Statut_RH','Type_de_contrat','BAP','Categorie_FP','Corps','Grade','Date_entree','Date_sortie','Actif'];const excluded=new Set(['id','ID_Personnel','Identifiant','manualSort','createdAt','updatedAt']);const keys=new Set();state.people.forEach(p=>Object.keys(p).forEach(k=>{if(!excluded.has(k))keys.add(k)}));return [...preferred.filter(k=>keys.has(k)),...[...keys].filter(k=>!preferred.includes(k)).sort((a,b)=>a.localeCompare(b,'fr'))]}
 function prettyField(k){return k.replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase()).replace('Id Personnel','Identifiant personnel').replace('Prenom','Prénom').replace('Telephone','Téléphone').replace('Date Entree','Date d’entrée').replace('Date Sortie','Date de sortie').replace('Statut RH','Statut RH').replace('Type De Contrat','Type de contrat').replace('Categorie FP','Catégorie FP')}
@@ -2577,7 +2582,7 @@ function bindPlanningDialogShortcuts(){
 
 bindPlanningDialogShortcuts();
 ['site','team','uo','job','status','search'].forEach(id=>$(id).addEventListener(id==='search'?'input':'change',render));$('prev').onclick=()=>{state.date=new Date(state.date.getFullYear(),state.date.getMonth()-1,1);render()};$('next').onclick=()=>{state.date=new Date(state.date.getFullYear(),state.date.getMonth()+1,1);render()};$('todayBtn').onclick=()=>{state.date=new Date();render()};$('cancelBtn').onclick=()=>$('editor').close();$('saveBtn').onclick=savePresenceFromKeyboard;$('deleteBtn').onclick=remove;$('rangeBtn').onclick=()=>openRangeEditor();$('cellRangeBtn').onclick=openRangeFromCell;$('rangeCancel').onclick=()=>$('rangeEditor').close();$('rangeSave').onclick=saveRangeFromKeyboard;['rangePerson','rangeCode','rangeStart','rangeEnd','rangeStartPeriod','rangeEndPeriod','rangeWeekends','rangeConflict','rangeRecurrenceEnd'].forEach(id=>$(id).addEventListener('change',updateRangeSummary));$('rangeRecurrence').addEventListener('change',()=>{$('rangeRecurrenceEnd').disabled=$('rangeRecurrence').value==='none';updateRangeSummary()});
-$('dashboardTab').onclick=()=>switchView('dashboard');$('planningTab').onclick=()=>switchView('planning');$('horairesTab').onclick=()=>switchView('horaires');$('agentsTab').onclick=()=>switchView('agents');$('analyseTab').onclick=()=>switchView('analyse');$('versionsTab').onclick=()=>switchView('versions');$('adminTab').onclick=e=>{e?.preventDefault();if(adminMode)showAdminView();else enterAdminMode()};$('newAgentBtn').onclick=()=>openAgentEditor();$('refreshAgentsBtn').onclick=load;$('cancelAgentBtn').onclick=()=>$('agentEditor').close();$('deleteAgentBtn').onclick=deleteAgent;$('agentForm').onsubmit=saveAgent;['agentSearch','agentSiteFilter','agentTeamFilter','agentActiveFilter'].forEach(id=>$(id).addEventListener(id==='agentSearch'?'input':'change',renderAgents));
+$('dashboardTab').onclick=()=>switchView('dashboard');$('planningTab').onclick=()=>switchView('planning');$('horairesTab').onclick=()=>switchView('horaires');$('logesTab').onclick=()=>switchView('loges');$('agentsTab').onclick=()=>switchView('agents');$('analyseTab').onclick=()=>switchView('analyse');$('versionsTab').onclick=()=>switchView('versions');$('adminTab').onclick=e=>{e?.preventDefault();if(adminMode)showAdminView();else enterAdminMode()};$('newAgentBtn').onclick=()=>openAgentEditor();$('refreshAgentsBtn').onclick=load;$('cancelAgentBtn').onclick=()=>$('agentEditor').close();$('deleteAgentBtn').onclick=deleteAgent;$('agentForm').onsubmit=saveAgent;['agentSearch','agentSiteFilter','agentTeamFilter','agentActiveFilter'].forEach(id=>$(id).addEventListener(id==='agentSearch'?'input':'change',renderAgents));
 $('refreshHorairesBtn').onclick=load;
 $('closeSchedulePreviewBtn').onclick=closeSchedulePreview;
 $('printSchedulePreviewBtn').onclick=()=>{const x=state.schedulePreview;if(x)printSchedule(x.p,x.h)};
