@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>SELACV V5.2.3 – Service Exploitation et Logistique Amiens Centre-Ville – Suivi des Ressources Humaines</title>
+  <title>SELACV V5.2.4 – Astreinte Logé – Service Exploitation et Logistique Amiens Centre-Ville – Suivi des Ressources Humaines</title>
   <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
   <style>
     :root{
@@ -1807,7 +1807,7 @@ function renderDashboard(){
   ['Astreintes',sets.standby.size,'Code AS aujourd’hui','standby'],
   ['Formations',sets.training.size,'Agents en formation','training'],
   ['Télétravail',sets.remote.size,remoteSurnames,'remote'],
-  ['Logés',window.getLogesCount?window.getLogesCount():0,window.getLogesSummary?window.getLogesSummary():'Aucun agent affecté','loge'],
+  ['Astreinte Logé',window.getLogesCount?window.getLogesCount():0,window.getLogesSummary?window.getLogesSummary():'Aucun agent affecté','loge'],
   ['Permanence',sets.permanence.size,permanenceSurnames,'permanence']
  ];
  $('dashboardKpis').innerHTML=kpis.map(x=>`<div class="kpi-card" data-kind="${x[3]}" title="${esc(x[2])}"><div class="kpi-label">${x[0]}</div><div class="kpi-value">${x[1]}</div><div class="kpi-note">${esc(x[2])}</div></div>`).join('');
